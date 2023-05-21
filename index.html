@@ -4,83 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital clock</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: #575656;
-            display: flex;
-            flex-direction:column;
-            margin-top: 40vh;
-            justify-content: center;
-        }
-        .main{
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            margin-left: 15rem;
-        }
-        #time {
-            background-color: #b3ff00;
-            width: 10rem;
-            height: 7rem;
-            width: 20rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 3rem;
-            border-radius: 1rem;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            color: #ff0000;
-            transition: .2s;
-        }
-        #time:hover {
-            background-color: #00d5ff;
-            color: black;
-        }
-        button {
-            width: 10rem;
-            margin-top: 2rem;
-        }
-        button{
-            height: 2rem;
-            margin-left: 4rem;
-        }
-    </style>
+    <title></title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="main">
-        <div id="time">00</div>
-    <button onclick="event();">Click Here</button>
-
-    </div>
-    <script>
-        setInterval(()=>{
-        let time = document.getElementById('time');
-        let h = new Date().getHours();
-        let m = new Date().getMinutes();
-        let s = new Date().getSeconds();
-        if(h>12) {
-            h-=12;
-        }
-        // if(h<10) {
-        //     h= "0"+h;
-        // }
-        h = (h<10) ? "0" + h : h;
-        m = (m<10) ? "0" + m : m;
-        s = (s<10) ? "0" + s : s;
-        time.innerHTML = h + ":" + m + ":" + s;
-        })
-        let time = document.getElementById('time');
+    <marquee direction="right"scrollamount="16" >
+        <img src="apj.gif"></marquee>
+        <marquee direction="left" scrollamount="16">
+            <img src="av.gif">
+        </marquee><br><br><br><br><br><br><br><br><br><br>
+        <br>
+        <marquee direction="right"scrollamount="16"><img src="du.gif"></marquee>
         
-        function event() {
-            alert("f"); 
-        }
-    </script>
+            
+            
+              
 </body>
 </html>

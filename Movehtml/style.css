@@ -1,4 +1,6 @@
 body{
     background-image: url(nat.png);
     background-size: cover;
+    overflow-y:hidden;
+    background-repeat: no-repeat;
 }

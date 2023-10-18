@@ -1,9 +1,69 @@
-function generate(){
-    var quotes={"ए.पी.जे. अब्दुल कलाम":"इससे कोई फर्क नहीं पड़ता कि आपके आस-पास का वातावरण कैसा है, अपनी ईमानदारी कायम रखना हमेशा संभव होता है।", "Albert Einstein": "Our task must be to free ourselves... by widening our circle of compassion to embrace all living creatures and the whole of nature and it's beauty.","ए.पी.जे. अब्दुल कलाम ":"अपनी पहली जीत के बाद आराम मत करो क्योंकि यदि आप दूसरे प्रयास में असफल होते हैं, तो कई लोग  यह कहने के लिए इंतजार कर रहे हैं कि आपकी पहली जीत सिर्फ भाग्य थी","mahatma gandhi":"You must be the change you wish to see in the world.","Eleanor Roosevelt":"Great minds discuss ideas; average minds discuss events; small minds discuss people.","Nelson Mandela":"The greatest glory in living lies not in never falling, but in rising every time we fall"," एपीजे अब्दुल कलाम":"अगर तुम सूरज की तरह चमकना चाहते हो तो पहले सूरज की तरह जलो।","Walt Disney":"All our dreams can come true – if we have the courage to pursue them."," एपीजे अब्दुल कलाम":"जीवन एक कठिन खेल हैं। आप एक व्यक्ति होने के अपने जन्मसिद्ध अधिकार को बनाये रखकर इसे जीत सकते हैं।"
-    }
-    var authors=Object.keys(quotes);
-    var author=authors[Math.floor(Math.random()*authors.length)]
-    var quote=quotes[author];
-    document.getElementById("quote").innerHTML=quote;
-    document.getElementById("author").innerHTML=author;
+const API_KEY = "b7b5cbfd52ad418da93d942805d47c6c";
+const url = "https://newsapi.org/v2/everything?q=";
+
+window.addEventListener("load", () => fetchNews("World"));
+
+function reload() {
+    window.location.reload();
 }
+
+async function fetchNews(query) {
+    const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+    const data = await res.json();
+    bindData(data.articles);
+}
+
+function bindData(articles) {
+    const cardsContainer = document.getElementById("cards-container");
+    const newsCardTemplate = document.getElementById("template-news-card");
+
+    cardsContainer.innerHTML = "";
+
+    articles.forEach((article) => {
+        if (!article.urlToImage) return;
+        const cardClone = newsCardTemplate.content.cloneNode(true);
+        fillDataInCard(cardClone, article);
+        cardsContainer.appendChild(cardClone);
+    });
+}
+
+function fillDataInCard(cardClone, article) {
+    const newsImg = cardClone.querySelector("#news-img");
+    const newsTitle = cardClone.querySelector("#news-title");
+    const newsSource = cardClone.querySelector("#news-source");
+    const newsDesc = cardClone.querySelector("#news-desc");
+
+    newsImg.src = article.urlToImage;
+    newsTitle.innerHTML = article.title;
+    newsDesc.innerHTML = article.description;
+
+    const date = new Date(article.publishedAt).toLocaleString("en-US", {
+        timeZone: "Asia/Jakarta",
+    });
+
+    newsSource.innerHTML = `${article.source.name} · ${date}`;
+
+    cardClone.firstElementChild.addEventListener("click", () => {
+        window.open(article.url, "_blank");
+    });
+}
+
+let curSelectedNav = null;
+function onNavItemClick(id) {
+    fetchNews(id);
+    const navItem = document.getElementById(id);
+    curSelectedNav?.classList.remove("active");
+    curSelectedNav = navItem;
+    curSelectedNav.classList.add("active");
+}
+
+const searchButton = document.getElementById("search-button");
+const searchText = document.getElementById("search-text");
+
+searchButton.addEventListener("click", () => {
+    const query = searchText.value;
+    if (!query) return;
+    fetchNews(query);
+    curSelectedNav?.classList.remove("active");
+    curSelectedNav = null;
+});
